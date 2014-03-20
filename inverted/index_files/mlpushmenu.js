@@ -215,7 +215,7 @@
 		_closeMenu : function() {
 			var translateVal = this.options.type === 'overlap' ? this.el.offsetWidth + ( this.level - 1 ) * this.options.levelSpacing : this.el.offsetWidth;
 			this._setTransform( 'translate3d(' + translateVal + 'px,0,0)' );
-			this._toggleLevels();
+      this._toggleLevels();
 		},
 		// translate the el
 		_setTransform : function( val, el ) {
@@ -226,11 +226,16 @@
 		},
 		// removes classes mp-level-open from closing levels
 		_toggleLevels : function() {
+			var levelFactor = ( this.level - 1 ) * this.options.levelSpacing,
+				translateVal = this.options.type === 'overlap' ? this.el.offsetWidth + levelFactor : this.el.offsetWidth;
+        //this._setTransform( 'translate3d(-'+ (levelFactor) +'px, 0,0) translate3d(100%,0,0) ',$( '#mp-menu' )[0]);
+        this._setTransform( 'translate3d(-100%,0,0)  translate3d(-'+levelFactor+'px, 0,0)  ',$( '#mp-menu' )[0]);
 			for( var i = 0, len = this.levels.length; i < len; ++i ) {
 				var levelEl = this.levels[i];
 				if( levelEl.getAttribute( 'data-level' ) >= this.level + 1 ) {
 					classie.remove( levelEl, 'mp-level-open' );
 					classie.remove( levelEl, 'mp-level-overlay' );
+        this._setTransform( 'translate3d(-100%,0,0)  translate3d(-'+levelFactor*2+'px, 0,0)  ', levelEl);
 				}
 				else if( Number( levelEl.getAttribute( 'data-level' ) ) == this.level ) {
 					classie.remove( levelEl, 'mp-level-overlay' );
